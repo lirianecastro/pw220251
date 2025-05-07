@@ -1,6 +1,14 @@
 from flask import Flask, render_template, request
+from model.conexao import Base
 
 app = Flask(__name__)
+
+from controller.usuarioController import *
+
+
+if __name__ == '__main__':
+   Base.metadata.create_all(bind=engine)
+   app.run()
 
 # exemplo de uma rota devolvendo apenas um texto.
 @app.route('/', methods=['GET'])
@@ -21,5 +29,3 @@ def hello_world_k():  # put application's code here
 
     return 'novo PWII: ' + request.form['nome'] + request.form['aniversario']
 
-if __name__ == '__main__':
-    app.run()
