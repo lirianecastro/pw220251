@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+
     <meta charset="UTF-8">
     <title>Aula de PW II</title>
 </head>
@@ -14,5 +16,27 @@
 
     <input type="submit" value="salvar">
 </form>
+   <div class= "tabela">
+        <table>
+            <thead>
+            <tr>
+                <th> Nome </th> <th> Aniversario </th>
+                <th> editar</th>
+                <th> excluir</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for usu in obj %}
+
+            <tr>
+                <td> {{usu.nome}} </td>
+                <td> {{usu.data}} </td>
+                <td><a href="#"> editar</a> </td>
+                <td> <a href="{{url_for('delete_usuarios',id=usu.id)}}"> excluir</a> </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+   </div>
 </body>
 </html>

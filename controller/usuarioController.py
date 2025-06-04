@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template,request, jsonify
+from flask import render_template,request, jsonify,redirect,url_for
 from sqlalchemy.orm import sessionmaker
 
 from model.conexao import engine
@@ -11,7 +11,9 @@ Sesssiolocal =sessionmaker(autocommit=False,bind=engine)
 
 @app.route("/usuarios/novo", methods=["GET"])
 def novo ():
-    return render_template("index.html")
+    db = Sesssiolocal()
+    usu = db.query(usuario).all();
+    return render_template("index.html", obj = usu)
 
 @app.route('/usuarios/salvar', methods=['POST'])
 def create():
@@ -20,7 +22,9 @@ def create():
                       data=request.form['aniversario'])
     db.add(uso)
     db.commit()
-    return jsonify({'msg':'salvo com sucesso'}), 200
+    msg ="salvo com sucesso"
+    return redirect(url_for('novo',msg= msg))
+    #return jsonife({"msg':'salvo com sucesso
 
 @app.route("/usuarios", methods=["GET"])
 def usuarios():
@@ -37,14 +41,14 @@ def get_usuarios(id):
     else:
         return jsonify({'msg': 'usuario não encontrado'}), 404
 
-@app.route("/usuarios/<int:id>", methods =["DELETE"])
+@app.route("/usuarios/delete/<int:id>", methods =["get"])
 def delete_usuarios(id):
     db = Sesssiolocal()
     usu = db.query(usuario).get(id)
     if(usu):
        db.delete(usu)
        db.commit()
-       return jsonify({'usuario apagado'}), 204
+       return redirect(url_for("novo"))
     else:
         return jsonify({'msg': 'usuario não encontrado'}), 404
 

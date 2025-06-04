@@ -8,7 +8,7 @@ from controller.usuarioController import *
 
 if __name__ == '__main__':
    Base.metadata.create_all(bind=engine)
-   app.run()
+   app.run(debug="true")
 
 # exemplo de uma rota devolvendo apenas um texto.
 @app.route('/', methods=['GET'])
